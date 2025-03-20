@@ -7,7 +7,7 @@ namespace WorkoutTrackerServices.Repositories;
 public class UserRepository(WorkoutContext workoutContext,ILogger<UserRepository> logger ) : IUserRepository
 {
     /// <summary>
-    /// Adding user to db
+    /// Adding user to db.
     /// </summary>
     /// <param name="user"></param>
     public async Task AddAsync(User user)
