@@ -1,0 +1,76 @@
+# Ignore Visual Studio specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build output and dependencies
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.csproj.user
+
+# Ignore user-specific configuration files
+*.config
+*.prefs
+*.dbmdl
+*.jfm
+*.bak
+*.swp
+
+# Ignore environment-specific files
+.env
+.env.local
+secrets.json
+
+# Ignore Rider IDE files
+.idea/
+*.iml
+
+# Ignore Resharper files
+*.DotSettings.user
+
+# Ignore NuGet Packages
+*.nupkg
+packages/
+project.lock.json
+.nuget/
+**/node_modules/
+
+# Ignore logs and temp files
+logs/
+*.log
+*.tlog
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Ignore coverage and test results
+coverage/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Ignore docker and container-related files
+docker-compose.override.yml
+.dockerignore
+
+# Ignore database files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Ignore generated files
+*.g.cs
+*.g.i.cs
+Generated/
+ServiceFabricBackup/
