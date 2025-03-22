@@ -14,6 +14,4 @@ public partial class WorkoutReport
     public string? ProgressNotes { get; set; }
 
     public DateTime? CreatedAt { get; set; }
-
-    public virtual Workout Workout { get; set; } = null!;
 }

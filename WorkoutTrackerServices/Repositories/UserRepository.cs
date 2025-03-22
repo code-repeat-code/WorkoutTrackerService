@@ -51,4 +51,53 @@ public class UserRepository(WorkoutContext workoutContext,ILogger<UserRepository
             throw;
         }
     }
+    
+    /// <summary>
+    /// Gets user by email
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        try
+        {
+            logger.LogInformation("Fetching user with email: {Email}", email);
+
+            var user = await workoutContext.Users.FirstOrDefaultAsync(x => x.Email == email).ConfigureAwait(false);
+
+            if (user == null)
+            {
+                logger.LogWarning("User with Email: {Email} not found", email);
+            }
+
+            return user;
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error occurred while fetching user with username: {Email}", email);
+            throw;
+        }
+    }
+    /// <summary>
+    /// Updates users
+    /// </summary>
+    /// <param name="user"></param>
+    public async Task UpdateUser(User user)
+    {
+        try
+        {
+            logger.LogInformation("Updating user with ID: {UserId}", user.UserId);
+
+            workoutContext.Update(user);
+            await workoutContext.SaveChangesAsync().ConfigureAwait(false);
+
+            logger.LogInformation("User with ID: {UserId} updated successfully", user.UserId);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error occurred while updating user with ID: {UserId}", user.UserId);
+            throw;
+        }
+    }
 }

@@ -26,11 +26,7 @@ public partial class WorkoutContext : DbContext
     public virtual DbSet<WorkoutReport> WorkoutReports { get; set; }
 
     public virtual DbSet<WorkoutSchedule> WorkoutSchedules { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=workout;Username=postgres;Password=P@1905inA");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Exercise>(entity =>
@@ -39,11 +35,11 @@ public partial class WorkoutContext : DbContext
 
             entity.ToTable("Exercise");
 
-            entity.Property(e => e.Category).HasColumnType("character varying");
+            entity.Property(e => e.Category).HasMaxLength(30);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Name).HasColumnType("character varying");
+            entity.Property(e => e.ExerciseName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -55,14 +51,14 @@ public partial class WorkoutContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Email).HasColumnType("character varying");
-            entity.Property(e => e.FirstName).HasColumnType("character varying");
-            entity.Property(e => e.LastName).HasColumnType("character varying");
-            entity.Property(e => e.PasswordHash).HasColumnType("character varying");
-            entity.Property(e => e.RefreshToken).HasColumnType("character varying");
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.RefreshToken).HasMaxLength(500);
             entity.Property(e => e.RefreshTokenExpiryTime).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Role).HasColumnType("character varying");
-            entity.Property(e => e.Username).HasColumnType("character varying");
+            entity.Property(e => e.Role).HasMaxLength(20);
+            entity.Property(e => e.Username).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Workout>(entity =>
@@ -74,7 +70,10 @@ public partial class WorkoutContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Name).HasColumnType("character varying");
+            entity.Property(e => e.DeletedAt).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.LastUpdatedAt).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.WorkoutName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<WorkoutExercise>(entity =>
@@ -101,10 +100,6 @@ public partial class WorkoutContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone");
-
-            entity.HasOne(d => d.Workout).WithMany(p => p.WorkoutReports)
-                .HasForeignKey(d => d.WorkoutId)
-                .HasConstraintName("WorkoutReport_WorkoutId_fkey");
         });
 
         modelBuilder.Entity<WorkoutSchedule>(entity =>
@@ -114,7 +109,7 @@ public partial class WorkoutContext : DbContext
             entity.ToTable("WorkoutSchedule");
 
             entity.Property(e => e.ScheduledDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Status).HasColumnType("character varying");
+            entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.Workout).WithMany(p => p.WorkoutSchedules)
                 .HasForeignKey(d => d.WorkoutId)

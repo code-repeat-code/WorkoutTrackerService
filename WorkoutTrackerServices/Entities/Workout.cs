@@ -9,13 +9,19 @@ public partial class Workout
 
     public int UserId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string WorkoutName { get; set; } = null!;
+
+    public string? Comment { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public virtual ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
+    public DateTime? LastUpdatedAt { get; set; }
 
-    public virtual ICollection<WorkoutReport> WorkoutReports { get; set; } = new List<WorkoutReport>();
+    public bool? IsDeleted { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
 
     public virtual ICollection<WorkoutSchedule> WorkoutSchedules { get; set; } = new List<WorkoutSchedule>();
 }

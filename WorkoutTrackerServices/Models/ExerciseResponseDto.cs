@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+namespace WorkoutTrackerServices.Models;
 
-namespace WorkoutTrackerServices.Entities;
-
-public partial class Exercise
+public class ExerciseResponseDto
 {
     public int ExerciseId { get; set; }
 
@@ -14,6 +11,4 @@ public partial class Exercise
     public string Category { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
-
-    public virtual ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
 }
