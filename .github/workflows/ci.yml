@@ -42,7 +42,7 @@ jobs:
 
       # Step 7: Docker Build
       - name: Build Docker Image
-        run: docker build --platform linux/amd64 -t ak1905/workouttrackerservice:prod .
+        run: docker build --platform linux/amd64 -t ak1905/workouttrackerservice:prod -f WorkoutTrackerServices/Dockerfile .
 
       # Step 8: Docker Login
       - name: Log in to Docker Hub
