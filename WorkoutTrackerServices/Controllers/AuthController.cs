@@ -8,7 +8,7 @@ namespace WorkoutTrackerServices.Controllers;
 
 [ApiController]
 [Route("/v1/authentication")]
-public class AuthController(IAuthService authService, ILogger<AuthController> logger, IUserRepository userRepository)
+public class AuthController(IAuthService authService, ILogger<AuthController> logger )
     : ControllerBase
 {
     /// <summary>
