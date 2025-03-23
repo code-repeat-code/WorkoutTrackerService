@@ -1,32 +1,20 @@
-﻿# Base image with ASP.NET runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-# Build image with SDK
+﻿# Use official .NET SDK image to build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Use the local path for .csproj
-COPY ["WorkoutTrackerServices.csproj", "./"]
+# Copy the csproj file from the correct relative path
+COPY ../WorkoutTrackerServices/WorkoutTrackerServices.csproj ./WorkoutTrackerServices.csproj
 
-# Restore dependencies
-RUN dotnet restore "WorkoutTrackerServices.csproj"
+# Copy the rest of the source code
+COPY ../WorkoutTrackerServices ./WorkoutTrackerServices
 
-# Copy everything and build
-COPY . .
-WORKDIR "/src"
-RUN dotnet build "WorkoutTrackerServices.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# Set working directory for restore/build
+WORKDIR /src/WorkoutTrackerServices
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
 
-# Publish stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "WorkoutTrackerServices.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-# Final image
-FROM base AS final
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "WorkoutTrackerServices.dll"]
