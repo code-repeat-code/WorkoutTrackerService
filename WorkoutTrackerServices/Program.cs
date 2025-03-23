@@ -103,8 +103,8 @@ void ConfigureSwagger(WebApplicationBuilder builder)
 
 void ConfigureAuthentication(WebApplicationBuilder builder)
 {
-    var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
-    var key = Encoding.ASCII.GetBytes(jwtKey);
+    string jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? throw new ApplicationException("JWT_KEY is missing");
+    byte[] key = Encoding.ASCII.GetBytes(jwtKey);
 
     builder.Services.AddAuthentication(options =>
     {
