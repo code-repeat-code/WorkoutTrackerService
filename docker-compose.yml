@@ -1,6 +1,17 @@
 ﻿services:
-  workouttrackerservices:
-    image: workouttrackerservices
-    build:
-      context: .
-      dockerfile: WorkoutTrackerServices/Dockerfile
+  workouttrackerservice:
+    image: ak1905/workouttrackerservice:prod
+    container_name: workout-tracker-service-prod
+    ports:
+      - "80:8080"
+    networks:
+      - workout-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}
+      JWT_KEY: ${JWT_KEY}
+    restart: always
+
+networks:
+  workout-network:
+    driver: bridge

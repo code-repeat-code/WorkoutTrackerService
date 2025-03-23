@@ -39,8 +39,7 @@ void ConfigureEnvironment()
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
-    var connectionString = Env.GetString("DB_CONNECTION_STRING");
-
+    string connectionString = Env.GetString("DB_CONNECTION_STRING");
     // Configure DbContext
     builder.Services.AddDbContext<WorkoutContext>(options =>
         options.UseNpgsql(connectionString));
