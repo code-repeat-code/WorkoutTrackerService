@@ -36,6 +36,9 @@ The database schema includes:
 - `WorkoutSchedule` (scheduling with status)
 
 ➡️ DB Schema
+<img width="1298" alt="image" src="https://github.com/user-attachments/assets/c4c54a43-0406-4a9b-8853-be9944c22466" />
+
+
 
 ---
 
