@@ -56,7 +56,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     }
     
     /// <summary>
-    /// Endpoint for user login.
+    /// User login or sign-in.
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
